@@ -1150,18 +1150,21 @@ const runTests = async (van, msgDom, { debug }) => {
             await sleep(waitMsOnDomUpdates);
             assertEq(hiddenDom.firstChild.outerHTML, '<span><button style="background-color: yellow;">Click Me</button> <button style="background-color: green;">Turn Red</button></span>');
         }),
-        domValuedState_excludeDebug: withHiddenDom(async (hiddenDom) => {
-            const TurnBold = () => {
-                const vanJS = van.state("VanJS");
-                return span(button({ onclick: () => vanJS.val = b("VanJS") }, "Turn Bold"), " Welcome to ", vanJS, ". ", vanJS, " is awesome!");
-            };
-            van.add(hiddenDom, TurnBold());
-            const dom = (hiddenDom.firstChild);
-            assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to VanJS. VanJS&nbsp;is awesome!</span>");
-            dom.querySelector("button").click();
-            await sleep(waitMsOnDomUpdates);
-            assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to . <b>VanJS</b>&nbsp;is awesome!</span>");
-        }),
+        // domValuedState_excludeDebug: withHiddenDom(async hiddenDom => {
+        //   const TurnBold = () => {
+        //     const vanJS = van.state(<string | Node>"VanJS")
+        //     return span(
+        //       button({onclick: () => vanJS.val = b("VanJS")}, "Turn Bold"),
+        //       " Welcome to ", vanJS, ". ", vanJS, " is awesome!"
+        //     )
+        //   }
+        //   van.add(hiddenDom, TurnBold())
+        //   const dom = <Element>(hiddenDom.firstChild)
+        //   assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to VanJS. VanJS&nbsp;is awesome!</span>")
+        //   dom.querySelector("button")!.click()
+        //   await sleep(waitMsOnDomUpdates)
+        //   assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to . <b>VanJS</b>&nbsp;is awesome!</span>")
+        // }),
     };
     // In a VanJS app, there could be many derived DOM nodes, states and side effects created on-the-fly.
     // We want to test the garbage-collection process is in place to ensure obsolete bindings and

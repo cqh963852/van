@@ -90,8 +90,14 @@ let derive = (f, s = state(), dom) => {
 let add = (dom, ...children) => {
   for (let c of children.flat(Infinity)) {
     let protoOfC = protoOf(c ?? 0)
-    let child = protoOfC === stateProto ? bind(() => c.val) :
-      protoOfC === funcProto ? bind(c) : c
+    let child
+    if (protoOfC === stateProto) {
+      let dom = new Text()
+      child = bind(() => {
+        let {val} = c
+        return val == _undefined ? _undefined : (dom.textContent = c.val, dom)
+      })
+    } else child = protoOfC === funcProto ? bind(c) : c
     if (child != _undefined) dom.append(child)
   }
   return dom

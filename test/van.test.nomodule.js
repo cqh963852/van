@@ -1088,19 +1088,22 @@
         button2.click();
         await sleep(waitMsOnDomUpdates);
         assertEq(hiddenDom.firstChild.outerHTML, '<span><button style="background-color: yellow;">Click Me</button> <button style="background-color: green;">Turn Red</button></span>');
-      }),
-      domValuedState_excludeDebug: withHiddenDom(async (hiddenDom) => {
-        const TurnBold = () => {
-          const vanJS = van2.state("VanJS");
-          return span(button({ onclick: () => vanJS.val = b("VanJS") }, "Turn Bold"), "\xA0Welcome to ", vanJS, ". ", vanJS, "\xA0is awesome!");
-        };
-        van2.add(hiddenDom, TurnBold());
-        const dom = hiddenDom.firstChild;
-        assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to VanJS. VanJS&nbsp;is awesome!</span>");
-        dom.querySelector("button").click();
-        await sleep(waitMsOnDomUpdates);
-        assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to . <b>VanJS</b>&nbsp;is awesome!</span>");
       })
+      // domValuedState_excludeDebug: withHiddenDom(async hiddenDom => {
+      //   const TurnBold = () => {
+      //     const vanJS = van.state(<string | Node>"VanJS")
+      //     return span(
+      //       button({onclick: () => vanJS.val = b("VanJS")}, "Turn Bold"),
+      //       " Welcome to ", vanJS, ". ", vanJS, " is awesome!"
+      //     )
+      //   }
+      //   van.add(hiddenDom, TurnBold())
+      //   const dom = <Element>(hiddenDom.firstChild)
+      //   assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to VanJS. VanJS&nbsp;is awesome!</span>")
+      //   dom.querySelector("button")!.click()
+      //   await sleep(waitMsOnDomUpdates)
+      //   assertEq(dom.outerHTML, "<span><button>Turn Bold</button>&nbsp;Welcome to . <b>VanJS</b>&nbsp;is awesome!</span>")
+      // }),
     };
     const gcTests = {
       bindingBasic: withHiddenDom(async (hiddenDom) => {
